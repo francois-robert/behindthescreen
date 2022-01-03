@@ -1,7 +1,7 @@
-import { Typography, Box  } from "@mui/material";
+import { Typography, Box, SxProps, Theme  } from "@mui/material";
 import SvgLogo from "./SvgLogo";
 
-const Logo = (props: { sx: any; }) => {
+const Logo = (props: { sx: SxProps<Theme>;  }) => {
     return (
         <Box sx={Object.assign({ flexGrow: 1, alignItems: 'center' }, props.sx)}>
             <SvgLogo style={{marginRight: '10px', fill: "blue"}} />

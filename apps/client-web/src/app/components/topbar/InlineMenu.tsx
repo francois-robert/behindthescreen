@@ -1,8 +1,8 @@
-import { Box, Button, ButtonGroup } from '@mui/material';
+import { Box, Button, ButtonGroup, SxProps, Theme } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { menuLinks } from './menuLinks';
 
-const InlineMenu = (props: { sx: any; }) => {
+const InlineMenu = (props: { sx: SxProps<Theme>;  }) => {
     const activeLink : React.CSSProperties | undefined = {textDecoration: 'underline white', textUnderlineOffset: "0.3em", textDecorationThickness: "0.15em" }
 
     return (

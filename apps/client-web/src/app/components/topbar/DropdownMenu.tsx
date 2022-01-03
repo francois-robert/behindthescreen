@@ -1,10 +1,10 @@
-import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, SxProps, Theme, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { menuLinks } from './menuLinks';
 
-const DropdownMenu = (props: { sx: any; }) => {
+const DropdownMenu = (props: { sx: SxProps<Theme>; }) => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
