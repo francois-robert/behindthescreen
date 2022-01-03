@@ -1,0 +1,10 @@
+{
+    "pluginsFile": "./cypress/plugins/index",
+    "videosFolder": "../../dist/cypress/apps/client-web-e2e/videos",
+    "screenshotsFolder": "../../dist/cypress/apps/client-web-e2e/screenshots",
+
+    "component": {
+        "componentFolder": "./src",
+        "testFiles": "**/*.cy-spec.{js,jsx,ts,tsx}"
+    }
+}

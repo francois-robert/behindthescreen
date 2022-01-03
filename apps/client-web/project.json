@@ -61,11 +61,10 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/client-web"],
+      "executor": "@nrwl/cypress:cypress",
       "options": {
-        "jestConfig": "apps/client-web/jest.config.js",
-        "passWithNoTests": true
+        "cypressConfig": "apps/client-web/cypress.json",
+        "testingType": "component"
       }
     }
   },

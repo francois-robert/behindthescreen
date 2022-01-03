@@ -4,9 +4,12 @@
   "integrationFolder": "./src/integration",
   "modifyObstructiveCode": false,
   "supportFile": "./src/support/index.ts",
-  "pluginsFile": false,
+  "pluginsFile": "./src/plugins/index",
   "video": true,
   "videosFolder": "../../dist/cypress/apps/client-web-e2e/videos",
   "screenshotsFolder": "../../dist/cypress/apps/client-web-e2e/screenshots",
-  "chromeWebSecurity": false
+  "chromeWebSecurity": false,
+
+  "testFiles": "**/*.{feature,features}",
+  "ignoreTestFiles": "*.ts"
 }
