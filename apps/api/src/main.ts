@@ -6,7 +6,7 @@
 import app from './app/app';
 import logger from './app/utils/logger';
 
-const APP_PORT = process.env.PORT || 3333
+const APP_PORT = process.env.APP_PORT || 3333
 
 app
   .listen(APP_PORT, () => {
