@@ -1,15 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import IUserModel, { User } from '../models/User';
-import * as bodyParser from 'body-parser';
 
 
 const router: Router = Router();
-
-// create application/json parser
-const jsonParser = bodyParser.json()
-
-// create application/x-www-form-urlencoded parser
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * GET /api/user
@@ -71,11 +64,10 @@ router.put('/user', authentication.required, (req: Request, res: Response, next:
 );
 */
 
-
 /**
  * POST /api/users
  */
-router.post('/users', jsonParser, (req: Request, res: Response, next: NextFunction) => {
+router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 
   const user: IUserModel = new User();
 

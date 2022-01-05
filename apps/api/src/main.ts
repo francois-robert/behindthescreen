@@ -4,11 +4,12 @@
  */
 
 import app from './app/app';
+import logger from './app/utils/logger';
 
 const APP_PORT = process.env.port || 3333
 
 app
   .listen(APP_PORT, () => {
-    console.log(`server running on port : ${APP_PORT}`);
+    logger.info(`server running on port : ${APP_PORT}`);
   })
   .on('error', (e) => console.error(e));
