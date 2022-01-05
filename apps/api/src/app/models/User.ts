@@ -1,5 +1,5 @@
 import { Document, Model, model, Schema } from 'mongoose';
-import { IUser } from '../interfaces/IUser';
+import { IUser } from '../interfaces/user-interface';
 import * as crypto from 'crypto';
 import * as mongooseUniqueValidator from 'mongoose-unique-validator'
 

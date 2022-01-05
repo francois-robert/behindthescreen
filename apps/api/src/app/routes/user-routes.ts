@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import IUserModel, { User } from '../models/User';
+import IUserModel, { User } from '../models/user';
 
 
 const router: Router = Router();
@@ -70,8 +70,6 @@ router.put('/user', authentication.required, (req: Request, res: Response, next:
 router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 
   const user: IUserModel = new User();
-
-  console.log(req.body)
 
   user.username = req.body.user.username;
   user.email    = req.body.user.email;
