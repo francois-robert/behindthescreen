@@ -48,12 +48,6 @@ const UserSchema = new Schema({
   image    : {
     type: Schema.Types.String
   },
-  favorites: [
-    {
-      type: Schema.Types.ObjectId,
-      ref : 'Article'
-    }
-  ],
   following: [
     {
       type: Schema.Types.ObjectId,
@@ -111,25 +105,6 @@ UserSchema.methods.toProfileJSONFor = function (user: IUserModel) {
     image    : this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
     following: user ? user.isFollowing(this._id) : false
   };
-};
-
-UserSchema.methods.favorite = function (id: string) {
-  if (this.favorites.indexOf(id) === -1) {
-    this.favorites.push(id);
-  }
-
-  return this.save();
-};
-
-UserSchema.methods.unfavorite = function (id: string) {
-  this.favorites.remove(id);
-  return this.save();
-};
-
-UserSchema.methods.isFavorite = function (id: string) {
-  return this.favorites.some(function (favoriteId: string) {
-    return favoriteId.toString() === id.toString();
-  });
 };
 
 UserSchema.methods.follow = function (id: string) {

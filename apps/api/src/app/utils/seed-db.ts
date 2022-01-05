@@ -1,23 +1,21 @@
-import * as mongoose from 'mongoose';
+import { createUser } from '../controller/user-controller';
 import { User } from '../models/user';
-
-const db = mongoose.connection;
 
 const seedUsers = [
     {
-        username: "toto",
-        email: "toto@gmail.com",
+        username: "fredisgreat",
+        email: "fredisgreat@test.com",
         password: "strongpwd"
     },
 
     {
-        username: "titi",
-        email: "titi@gmail.com",
+        username: "bob12",
+        email: "bob12@test.com",
         password: "strongpwd"
     }
 ]
 
 export const seedDatabase = async () => {
     await User.deleteMany({});
-    await User.insertMany(seedUsers);
+    await seedUsers.forEach(e => createUser(e));
 };

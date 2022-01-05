@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import IUserModel, { User } from '../models/user';
-
+import * as userController from '../controller/user-controller';
 
 const router: Router = Router();
 
@@ -69,16 +68,8 @@ router.put('/user', authentication.required, (req: Request, res: Response, next:
  */
 router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 
-  const user: IUserModel = new User();
-
-  user.username = req.body.user.username;
-  user.email    = req.body.user.email;
-  user.setPassword(req.body.user.password);
-  user.bio   = '';
-  user.image = '';
-
-  return user.save()
-    .then(() => {
+  return userController.createUser(req.body.user)
+    .then((user) => {
       return res.json({user: user.toAuthJSON()});
     })
     .catch(next);

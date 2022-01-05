@@ -2,7 +2,7 @@ import TopBar from "../components/topbar/TopBar";
 
 const About = () => {
     return (
-        <div data-cy="about">
+        <div data-cy="about-page">
             <TopBar/>
             <h1>A propos</h1>
             <br/>

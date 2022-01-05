@@ -16,7 +16,7 @@ err.status             = 404;
 next(err);
 });
 
-app.use((err: Record<string, unknown>, req: Request, res: Response, next: any) => {
+app.use((err: Record<string, any>, req: Request, res: Response) => {
 
 if (err.name === 'ValidationError') {
     return res.status(422).json({

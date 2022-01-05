@@ -3,17 +3,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { menuLinks } from './menuLinks';
+import {
+    usePopupState,
+    bindTrigger,
+    bindMenu,
+  } from 'material-ui-popup-state/hooks'
+
 
 const DropdownMenu = (props: { sx: SxProps<Theme>; }) => {
-    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorElNav(event.currentTarget);
-    };
-  
-    const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
-    };
+    const popupState = usePopupState({
+        variant: 'popover',
+        popupId: 'navMenuPopover',
+      })
   
     return (
         <Box sx={Object.assign({ flexGrow: 1, alignItems: 'center' }, props.sx)}>
@@ -22,15 +23,13 @@ const DropdownMenu = (props: { sx: SxProps<Theme>; }) => {
             size="large"
             aria-label="account of current user"
             aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
             color="inherit"
+            {...bindTrigger(popupState)}
             >
                 <MenuIcon />
             </IconButton>
             <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
+            {...bindMenu(popupState)}
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
@@ -40,15 +39,13 @@ const DropdownMenu = (props: { sx: SxProps<Theme>; }) => {
                 vertical: 'top',
                 horizontal: 'left',
             }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
             sx={{
                 display: { xs: 'block', md: 'none' },
             }}
             >
             {menuLinks.map((page) => (
                 <NavLink exact to={page.path} style={{textDecoration:"none"}}>
-                    <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                    <MenuItem key={page.name} onClick={popupState.close}>
                         <Typography textAlign="center">{page.name}</Typography>
                     </MenuItem>
                 </NavLink>
