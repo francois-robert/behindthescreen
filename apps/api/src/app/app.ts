@@ -4,7 +4,6 @@ import * as bodyParser from 'body-parser';
 import { MainRouter } from './routes';
 import middlewareLogger from './utils/middlewareLogger';
 import { loadErrorHandlers } from './utils/error-handling';
-import logger from './utils/logger';
 import session from './utils/session';
 
 import './db'; // initialize database

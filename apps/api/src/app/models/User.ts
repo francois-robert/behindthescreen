@@ -1,7 +1,9 @@
 import { Document, Model, model, Schema } from 'mongoose';
 import { IUser } from '../interfaces/user-interface';
 import * as crypto from 'crypto';
+import * as jwt from 'jsonwebtoken';
 import * as mongooseUniqueValidator from 'mongoose-unique-validator'
+import { environment } from "../../../environments/environment";
 
 
 export default interface IUserModel extends IUser, Document {
@@ -9,10 +11,10 @@ export default interface IUserModel extends IUser, Document {
   favorites: [Schema.Types.ObjectId];
 
   generateJWT(): string;
-  toAuthJSON(): any;
+  toAuthJSON(): Record<string, unknown>;
   setPassword(password: string): void;
   validPassword(password: string): boolean;
-  toProfileJSONFor(user: IUserModel): any;
+  toProfileJSONFor(user: IUserModel): Record<string, unknown>;
   isFollowing(id: string): boolean;
   follow(id: string): Promise<IUser>;
   unfollow(id: string): Promise<IUser>;
@@ -84,12 +86,15 @@ UserSchema.methods.generateJWT = function (): string {
   const exp   = new Date(today);
   exp.setDate(today.getDate() + 60);
 
-  // a modifier !!!
-  return "blablatoken";
+  return jwt.sign({
+    id      : this._id,
+    username: this.username,
+    exp     : exp.getTime() / 1000,
+  }, environment.jwt_secret);
 };
 
 
-UserSchema.methods.toAuthJSON = function (): any {
+UserSchema.methods.toAuthJSON = function(): Record<string, unknown> {
   return {
     username: this.username,
     email   : this.email,
