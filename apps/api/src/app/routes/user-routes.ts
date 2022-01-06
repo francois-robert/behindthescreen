@@ -69,7 +69,7 @@ router.put('/user', authentication.required, (req: Request, res: Response, next:
  */
 router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 
-  return userController.createUser(req.body)
+  return userController.createUserAndSave(req.body)
     .then((user) => {
       return res.json({user: user.toAuthJSON()});
     })

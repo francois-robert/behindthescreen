@@ -1,4 +1,4 @@
-import { createUser } from '../controller/user-controller';
+import { createUsers } from '../controller/user-controller';
 import { User } from '../models/user';
 
 const seedUsers = [
@@ -17,5 +17,5 @@ const seedUsers = [
 
 export const seedDatabase = async () => {
     await User.deleteMany({});
-    await seedUsers.forEach(e => createUser(e));
+    await User.insertMany(createUsers(seedUsers));
 };

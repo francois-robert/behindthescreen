@@ -13,3 +13,5 @@ app
     logger.info(`server running on port : ${APP_PORT}`);
   })
   .on('error', (e) => console.error(e));
+
+export default app;
