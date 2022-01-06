@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import * as userController from '../controller/user-controller';
+import * as passport from 'passport';
 
 const router: Router = Router();
 
@@ -68,7 +69,7 @@ router.put('/user', authentication.required, (req: Request, res: Response, next:
  */
 router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 
-  return userController.createUser(req.body.user)
+  return userController.createUser(req.body)
     .then((user) => {
       return res.json({user: user.toAuthJSON()});
     })
@@ -81,14 +82,13 @@ router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 /**
  * POST /api/users/login
  */
-/*
 router.post('/users/login', (req: Request, res: Response, next: NextFunction) => {
 
-  if (!req.body.user.email) {
+  if (!req.body.email) {
     return res.status(422).json({errors: {email: "Can't be blank"}});
   }
 
-  if (!req.body.user.password) {
+  if (!req.body.password) {
     return res.status(422).json({errors: {password: "Can't be blank"}});
   }
 
@@ -107,6 +107,6 @@ router.post('/users/login', (req: Request, res: Response, next: NextFunction) =>
   })(req, res, next);
 
 });
-*/
+
 
 export const UsersRoutes: Router = router;

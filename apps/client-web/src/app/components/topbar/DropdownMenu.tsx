@@ -44,8 +44,8 @@ const DropdownMenu = (props: { sx: SxProps<Theme>; }) => {
             }}
             >
             {menuLinks.map((page) => (
-                <NavLink exact to={page.path} style={{textDecoration:"none"}}>
-                    <MenuItem key={page.name} onClick={popupState.close}>
+                <NavLink exact to={page.path} key={page.name} style={{textDecoration:"none"}}>
+                    <MenuItem onClick={popupState.close}>
                         <Typography textAlign="center">{page.name}</Typography>
                     </MenuItem>
                 </NavLink>

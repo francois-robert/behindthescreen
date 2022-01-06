@@ -3,17 +3,12 @@ import axios from 'axios';
 import { useState } from 'react';
 import { usePopupState, bindTrigger, bindPopover, } from 'material-ui-popup-state/hooks'
 import LoginForm from './LoginForm';
-  
 
 const LoginButton = (props: { sx: SxProps<Theme>;  }) => {
     const popupState = usePopupState({
         variant: 'popover',
         popupId: 'loginPopover',
-      })
-
-    const handleClick = async () => {
-        await axios.post("/api/testData/seed");
-    }
+    })
 
     return (
         <Box sx={Object.assign({ }, props.sx)}>
@@ -34,9 +29,9 @@ const LoginButton = (props: { sx: SxProps<Theme>;  }) => {
             horizontal: 'center',
             }}
         >
-            <LoginForm />
-        </Popover>
-      </Box>
+                <LoginForm />
+            </Popover>
+        </Box>
     );
 };
 
