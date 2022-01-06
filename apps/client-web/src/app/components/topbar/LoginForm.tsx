@@ -14,7 +14,7 @@ const LoginForm = () => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event : any) => {
+    const handleSubmit = (event : React.SyntheticEvent) => {
         event.preventDefault()
         
         axios.post('/api/users/login', {email: email, password: password})

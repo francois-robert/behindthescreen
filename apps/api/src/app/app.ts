@@ -3,13 +3,12 @@ import { Application } from 'express';
 import * as bodyParser from 'body-parser';
 
 import { MainRouter } from './routes';
-import middlewareLogger from './utils/middlewareLogger';
-import { loadErrorHandlers } from './utils/error-handling';
-import session from './utils/session';
+import middlewareLogger from './config/middleware-logger';
+import { loadErrorHandlers } from './config/error-handling';
+import session from './config/session';
+import "./config/passport"; // Passport configuration
 
 import './db'; // initialize database
-// Passport configuration
-import "./utils/passport";
 
 const app: Application = express();
 
