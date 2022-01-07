@@ -31,8 +31,8 @@ describe("Users API", () => {
     
       it("should return user infos", async () => {
         const res = await request(app).post(ENDPOINT).send(userPayload)
-        expect(res.body.user.email).toBe(testUser.email)
-        expect(res.body.user.username).toBe(testUser.username)
+        expect(res.body.email).toBe(testUser.email)
+        expect(res.body.username).toBe(testUser.username)
       });
     });
 
@@ -85,8 +85,8 @@ describe("Users API", () => {
     
       it("should return user infos", async () => {
         const res = await request(app).post(ENDPOINT).send(userPayload)
-        expect(res.body.user.email).toBe(userPayload.email)
-        expect(res.body.user.username).toBe(userPayload.username)
+        expect(res.body.email).toBe(userPayload.email)
+        expect(res.body.username).toBe(userPayload.username)
       });
 
       it("should save in DB", async () => {
@@ -122,6 +122,46 @@ describe("Users API", () => {
       })
 
     });
+
+  });
+
+  describe("GET /users/user", () => {
+    const ENDPOINT = '/api/user'
+    const testUser = seedUsers[0]
+
+    describe("with valid user token", () => {
+      it("should return 200", async () => {
+        const user = await User.findOne({email:testUser.email})
+        let res = await request(app).get(ENDPOINT).set('Authorization', 'Bearer ' + user.generateJWT())
+        expect(res.status).toBe(200)
+
+        res = await request(app).get(ENDPOINT+"?token=" + user.generateJWT())
+        expect(res.status).toBe(200)
+
+      })
+
+      it("should return user infos", async () => {
+        const user = await User.findOne({email:testUser.email})
+        const token = user.generateJWT()
+        const res = await request(app).get(ENDPOINT).set('Authorization', 'Bearer ' + token)
+
+        expect(res.body.email).toBe(user.email)
+        expect(res.body.username).toBe(user.username)
+        expect(res.body.bio).toBe(user.bio)
+        expect(res.body.image).toBe(user.image)
+      })
+    })
+
+    describe("with invalid user token", () => {
+      it("should return 401", async () => {
+        let res = await request(app).get(ENDPOINT).set('Authorization', '')
+        expect(res.status).toBe(401)
+
+        res = await request(app).get(ENDPOINT)
+        expect(res.status).toBe(401)
+
+      })
+    })
 
   });
 

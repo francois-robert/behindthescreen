@@ -2,27 +2,31 @@ import { NextFunction, Request, Response, Router } from 'express';
 import * as userController from '../controller/user-controller';
 import * as passport from 'passport';
 import { prettyError } from '../utils/pretty-error';
+import { authentication } from '../config/authentication';
+import IUserModel from '../models/user';
 
 const router: Router = Router();
+
+interface JWTRequest extends Request {
+  payload?: {
+    id?: string
+  };
+}
 
 /**
  * GET /api/user
  */
-/*
-router.get('/user', authentication.required, (req: Request, res: Response, next: NextFunction) => {
+router.get('/user', authentication.required, (req: JWTRequest, res: Response, next: NextFunction) => {
 
-    User
-      .findById(req.payload.id)
-      .then((user: IUserModel) => {
-          res.status(200).json({user: user.toAuthJSON()});
+      userController.findById(req.payload.id)
+        .then((user: IUserModel) => {
+          res.status(200).json(user.toAuthJSON());
         }
       )
       .catch(next);
-
+      
   }
 );
-*/
-
 
 /**
  * PUT /api/user
@@ -72,7 +76,7 @@ router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 
   return userController.createUserAndSave(req.body)
     .then((user) => {
-      return res.json({user: user.toAuthJSON()});
+      return res.json(user.toAuthJSON());
     })
     .catch((err) => {
       res.status(422).json(prettyError(err));
@@ -103,7 +107,7 @@ router.post('/users/login', (req: Request, res: Response, next: NextFunction) =>
 
     if (user) {
       user.token = user.generateJWT();
-      return res.json({user: user.toAuthJSON()});
+      return res.json(user.toAuthJSON());
 
     } else {
       return res.status(422).json(info);

@@ -1,5 +1,6 @@
 import IUserModel, { User } from "../models/user";
 
+
 export const createUser = (userObj) : IUserModel => {
     const user: IUserModel = new User();
 
@@ -21,4 +22,8 @@ export const createUsers = (users) : Array<IUserModel> => {
     users.map((user) => newArr.push(createUser(user)))
 
     return newArr
+}
+
+export const findById = (id) =>  {
+    return User.findById(id)
 }
