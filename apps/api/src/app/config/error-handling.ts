@@ -1,33 +1,18 @@
-import { Application, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { environment } from "../../../environments/environment";
 import logger from "../utils/logger";
 
-export const loadErrorHandlers = (app: Application) => {
-
+interface BetterError extends Error {
+    status?: number;
+}
 // catch 404 errors and forward to error handler
-app.use((req, res, next) => {
-
-    interface BetterError extends Error {
-        status?: number;
-    }
-
+export function catch404(req, res, next) {
     const err: BetterError = new Error('Not Found');
     err.status = 404;
     next(err);
-});
+};
 
-app.use((err: Record<string, any>, req: Request, res: Response) => {
-
-    if (err.name === 'ValidationError') {
-        return res.status(422).json({
-        errors: Object.keys(err.errors).reduce((errors: Record<string, unknown>, key: string) => {
-            errors[key] = err.errors[key].message;
-
-            return errors;
-        }, {})
-        });
-    }
-
+export function errorHandler(err: BetterError, req: Request, res: Response) {
     logger.error(err);
     res.status(err.status || 500);
     res.json({
@@ -36,6 +21,4 @@ app.use((err: Record<string, any>, req: Request, res: Response) => {
         error  : !environment.production ? err : {}
         }
     });
-});
-
 }

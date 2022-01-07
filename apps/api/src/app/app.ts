@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 
 import { MainRouter } from './routes';
 import middlewareLogger from './config/middleware-logger';
-import { loadErrorHandlers } from './config/error-handling';
+import { catch404, errorHandler } from './config/error-handling';
 import session from './config/session';
 import "./config/passport"; // Passport configuration
 
@@ -18,7 +18,8 @@ app.use(bodyParser.json());
 app.use(session);
 app.use('/api', MainRouter);
 
-loadErrorHandlers(app);
+app.use(catch404)
+app.use(errorHandler)
 
 
 export default app;

@@ -44,10 +44,10 @@ describe("Users API", () => {
 
       it("should specify error message", async () => {
         let res = await request(app).post(ENDPOINT).send(Object.assign({}, userPayload, {email: "doesnotexists@gmail.com"}))
-        expect(res.body.message).toBe('Incorrect email.')
+        expect(res.body.errors.email).toBe('incorrect')
 
         res = await request(app).post(ENDPOINT).send(Object.assign({}, userPayload, {password: "wrongpwd"}))
-        expect(res.body.message).toBe('Incorrect password.')
+        expect(res.body.errors.password).toBe('incorrect')
       })
 
     });
@@ -61,10 +61,10 @@ describe("Users API", () => {
 
       it("should specify error 'Can't be blank'", async () => {
         let res = await request(app).post(ENDPOINT).send(Object.assign({}, userPayload, {email: ""}))
-        expect(res.body.errors.email).toBe("Can't be blank")
+        expect(res.body.errors.email).toBe("can't be blank")
 
         res = await request(app).post(ENDPOINT).send(Object.assign({}, userPayload, {password: ""}))
-        expect(res.body.errors.password).toBe("Can't be blank")
+        expect(res.body.errors.password).toBe("can't be blank")
       })
 
     });
@@ -112,13 +112,13 @@ describe("Users API", () => {
           email: userPayload.email,
           password: userPayload.password
         })
-        expect(res.body.message).toBe("username can't be blank")
+        expect(res.body.errors.username).toBe("can't be blank")
 
         res = await request(app).post(ENDPOINT).send({
           username: userPayload.username,
           password: userPayload.password
         })
-        expect(res.body.message).toBe("email can't be blank")
+        expect(res.body.errors.email).toBe("can't be blank")
       })
 
     });

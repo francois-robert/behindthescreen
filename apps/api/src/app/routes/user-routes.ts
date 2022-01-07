@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import * as userController from '../controller/user-controller';
 import * as passport from 'passport';
+import { prettyError } from '../utils/pretty-error';
 
 const router: Router = Router();
 
@@ -74,7 +75,7 @@ router.post('/users', (req: Request, res: Response, next: NextFunction) => {
       return res.json({user: user.toAuthJSON()});
     })
     .catch((err) => {
-      res.status(422).json({message: Object.keys(err.errors)[0]+ " " + err.errors[Object.keys(err.errors)[0]].properties.message})
+      res.status(422).json(prettyError(err));
       next
     });
 
@@ -88,11 +89,11 @@ router.post('/users', (req: Request, res: Response, next: NextFunction) => {
 router.post('/users/login', (req: Request, res: Response, next: NextFunction) => {
 
   if (!req.body.email) {
-    return res.status(422).json({errors: {email: "Can't be blank"}});
+    return res.status(422).json({errors: {email: "can't be blank"}});
   }
 
   if (!req.body.password) {
-    return res.status(422).json({errors: {password: "Can't be blank"}});
+    return res.status(422).json({errors: {password: "can't be blank"}});
   }
 
   passport.authenticate('local', {session: false}, (err, user, info) => {

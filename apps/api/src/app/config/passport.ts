@@ -18,10 +18,10 @@ passport.use(new LocalStrategy({
         .findOne({email})
         .then(user => {
         if (!user) {
-            return done(null, false, {message: 'Incorrect email.'});
+            return done(null, false, {errors: {email: "incorrect"}});
         }
         if (!user.validPassword(password)) {
-            return done(null, false, {message: 'Incorrect password.'});
+            return done(null, false, {errors: {password: "incorrect"}});
         }
         return done(null, user);
         })
