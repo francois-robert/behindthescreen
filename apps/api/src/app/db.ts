@@ -12,22 +12,9 @@ const options = {
   socketTimeoutMS   : 45000, // Close sockets after 45 seconds of inactivity
 };
 
-logger.debug(dbURI);
-
-// Create the database connection
-mongoose
-  .connect(dbURI, options)
-  .then(() => {
-    logger.info('Mongoose connection done');
-  })
-  .catch((e) => {
-    logger.info('Mongoose connection error');
-    logger.error(e);
-  });
-
-// CONNECTION EVENTS
-// When successfully connected
-mongoose.connection.on('connected', () => {
+  // CONNECTION EVENTS
+  // When successfully connected
+  mongoose.connection.on('connected', () => {
     logger.info('Mongoose default connection open to ' + dbURI);
 });
 
@@ -48,3 +35,11 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
+
+
+export default function connectDB() : Promise<typeof import("mongoose")> {
+  logger.debug(dbURI);
+
+  // Create the database connection
+  return mongoose.connect(dbURI, options)
+}

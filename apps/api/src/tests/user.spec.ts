@@ -1,8 +1,17 @@
 import app from '../app/app';
-import { seedDatabase } from '../app/utils/seed-db'; // à intégrer en asynchone !!
+import { seedDatabase } from '../app/utils/seed-db';
 import * as request from 'supertest'
+import connectDB from '../app/db';
 
 describe("Users API", () => {
+
+  beforeAll(async () => {
+    await connectDB()
+  })
+  beforeEach(async () => {
+    await seedDatabase()
+  })
+
   describe("POST /users/login", () => {
     it("should return 200 if OK", (done) => {
       request(app).post("/api/users/login")

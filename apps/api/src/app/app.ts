@@ -8,8 +8,6 @@ import { loadErrorHandlers } from './config/error-handling';
 import session from './config/session';
 import "./config/passport"; // Passport configuration
 
-import './db'; // initialize database
-
 const app: Application = express();
 
 app.use(middlewareLogger);

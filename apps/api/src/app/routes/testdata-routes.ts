@@ -8,9 +8,11 @@ const router: Router = Router();
 /**
  * POST /api/testData/seed
  */
-router.post("/seed", (req, res) => {
-    seedDatabase();
-    res.sendStatus(200);
+router.post("/seed", (req, res, next) => {
+    seedDatabase().then(() => {
+        res.sendStatus(200);
+    })
+    .catch(next);
 });
 
 
