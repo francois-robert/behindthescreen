@@ -8,19 +8,12 @@ import { environment } from "../../../environments/environment";
 
 export default interface IUserModel extends IUser, Document {
   token?: string;
-  favorites: [Schema.Types.ObjectId];
 
   generateJWT(): string;
   toAuthJSON(): Record<string, unknown>;
   setPassword(password: string): void;
   validPassword(password: string): boolean;
   toProfileJSONFor(user: IUserModel): Record<string, unknown>;
-  isFollowing(id: string): boolean;
-  follow(id: string): Promise<IUser>;
-  unfollow(id: string): Promise<IUser>;
-  favorite(id: string): Promise<IUser>;
-  unfavorite(id: string): Promise<IUser>;
-  isFavorite(id: string): boolean;
 }
 
 
@@ -89,15 +82,6 @@ UserSchema.methods.toAuthJSON = function(): Record<string, unknown> {
     token   : this.generateJWT(),
     bio     : this.bio,
     image   : this.image
-  };
-};
-
-UserSchema.methods.toProfileJSONFor = function (user: IUserModel) {
-  return {
-    username : this.username,
-    bio      : this.bio,
-    image    : this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
-    following: user ? user.isFollowing(this._id) : false
   };
 };
 

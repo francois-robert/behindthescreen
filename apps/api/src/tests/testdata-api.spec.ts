@@ -24,11 +24,11 @@ describe("TestData API", () => {
         
         it("should add users", async () => {
             await request(app).post("/api/testData/seed").send({})
-            seedUsers.forEach(async (user) => {
+            await Promise.all(seedUsers.map(async (user) => {
                 const userDB = await User.findOne({username:user.username})
                 expect(userDB.email).toBe(user.email)
                 expect(userDB.username).toBe(user.username)
-            })
+            }))
         });
     });
 
