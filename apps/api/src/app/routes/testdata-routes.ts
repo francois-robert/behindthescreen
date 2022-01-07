@@ -21,11 +21,11 @@ router.post("/seed", (req, res, next) => {
  */
 /*
 router.get("/:entity", validateMiddleware([...isValidEntityValidator]), (req, res) => {
-const { entity } = req.params;
-const results = getAllForEntity(entity as keyof DbSchema);
+    const { entity } = req.params;
+    const results = getAllForEntity(entity as keyof DbSchema);
 
-res.status(200);
-res.json({ results });
+    res.status(200);
+    res.json({ results });
 });
 */
 

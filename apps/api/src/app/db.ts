@@ -37,9 +37,13 @@ process.on('SIGINT', () => {
 });
 
 
-export default function connectDB() : Promise<typeof import("mongoose")> {
+export function connectDB() : Promise<typeof import("mongoose")> {
   logger.debug(dbURI);
 
   // Create the database connection
   return mongoose.connect(dbURI, options)
+}
+
+export function disconnectDB() : Promise<void> {
+  return mongoose.connection.close()
 }

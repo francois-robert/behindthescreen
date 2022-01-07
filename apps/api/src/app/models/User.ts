@@ -48,12 +48,6 @@ const UserSchema = new Schema({
   image    : {
     type: Schema.Types.String
   },
-  following: [
-    {
-      type: Schema.Types.ObjectId,
-      ref : 'User'
-    }
-  ],
   hash     : {
     type: Schema.Types.String
   },
@@ -106,25 +100,5 @@ UserSchema.methods.toProfileJSONFor = function (user: IUserModel) {
     following: user ? user.isFollowing(this._id) : false
   };
 };
-
-UserSchema.methods.follow = function (id: string) {
-  if (this.following.indexOf(id) === -1) {
-    this.following.push(id);
-  }
-
-  return this.save();
-};
-
-UserSchema.methods.unfollow = function (id: string) {
-  this.following.remove(id);
-  return this.save();
-};
-
-UserSchema.methods.isFollowing = function (id: string) {
-  return this.following.some(function (followId: string) {
-    return followId.toString() === id.toString();
-  });
-};
-
 
 export const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);

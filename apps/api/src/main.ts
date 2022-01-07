@@ -4,7 +4,7 @@
  */
 
 import app from './app/app';
-import connectDB from './app/db';
+import { connectDB } from './app/db';
 import logger from './app/utils/logger';
 
 connectDB().then(() => {
