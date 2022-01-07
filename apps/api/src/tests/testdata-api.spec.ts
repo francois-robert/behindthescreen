@@ -1,5 +1,5 @@
 import app from '../app/app';
-import { seedDatabase } from '../app/utils/seed-db';
+import { seedDatabase, seedUsers } from '../app/utils/seed-db';
 import * as request from 'supertest'
 import { connectDB, disconnectDB } from '../app/db';
 import { User } from '../app/models/user';
@@ -24,9 +24,11 @@ describe("TestData API", () => {
         
         it("should add users", async () => {
             await request(app).post("/api/testData/seed").send({})
-            const user = await User.findOne({username:"fredisgreat"})
-
-            expect(user.email).toBe('fredisgreat@test.com')
+            seedUsers.forEach(async (user) => {
+                const userDB = await User.findOne({username:user.username})
+                expect(userDB.email).toBe(user.email)
+                expect(userDB.username).toBe(user.username)
+            })
         });
     });
 

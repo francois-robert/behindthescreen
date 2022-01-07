@@ -1,7 +1,7 @@
 import { createUsers } from '../controller/user-controller';
 import { User } from '../models/user';
 
-const seedUsers = [
+export const seedUsers = [
     {
         username: "fredisgreat",
         email: "fredisgreat@test.com",

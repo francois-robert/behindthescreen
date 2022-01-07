@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import * as userController from '../controller/user-controller';
 import * as passport from 'passport';
+import logger from '../utils/logger';
 
 const router: Router = Router();
 
@@ -73,7 +74,11 @@ router.post('/users', (req: Request, res: Response, next: NextFunction) => {
     .then((user) => {
       return res.json({user: user.toAuthJSON()});
     })
-    .catch(next);
+    .catch((err) => {
+      //res.status(422).json({errors: {email: "Can't be blank"}});
+      res.status(422).json({message: Object.keys(err.errors)[0]+ " " + err.errors[Object.keys(err.errors)[0]].properties.message})
+      next
+    });
 
 });
 
