@@ -1,5 +1,8 @@
-import { Router } from 'express';
-import { seedDatabase } from '../utils/seed-db';
+import { Request, Response, Router, NextFunction } from 'express';
+import { seedDatabase, getAllForEntity } from '../utils/seed-db';
+import { check, ValidationChain, validationResult } from "express-validator";
+
+
 
 // Routes
 
@@ -19,14 +22,36 @@ router.post("/seed", (req, res, next) => {
 /**
  * GET /api/testData/:entity
  */
-/*
-router.get("/:entity", validateMiddleware([...isValidEntityValidator]), (req, res) => {
-    const { entity } = req.params;
-    const results = getAllForEntity(entity as keyof DbSchema);
+ 
+const isValidEntityValidator : ValidationChain[] = [
+     check("entity")
+       .isIn([
+         "users"
+       ])
+       .trim(),
+   ];
+ 
+const validateMiddleware = (validations: ValidationChain[]) => {
+     return async (req: Request, res: Response, next: NextFunction) => {
+       await Promise.all(validations.map((validation: ValidationChain) => validation.run(req)));
+   
+       const errors = validationResult(req);
+       if (errors.isEmpty()) {
+         return next();
+       }
+   
+       res.status(422).json({ errors: errors.array() });
+     };
+   };
 
-    res.status(200);
-    res.json({ results });
+router.get("/:entity", validateMiddleware([...isValidEntityValidator]), (req, res, next) => {
+    const { entity } = req.params;
+    
+    getAllForEntity(entity).then((results) => {
+        res.status(200).json({results: results});
+      }
+    )
+    .catch(next);
 });
-*/
 
 export const TestDataRoutes: Router = router;

@@ -15,15 +15,16 @@ describe("TestData API", () => {
     })
 
     describe("POST /testData/seed", () => {
+        const ENDPOINT = "/api/testData/seed"
 
         it("should respond with 200", async () => {
-            const res = await request(app).post("/api/testData/seed").send({})
+            const res = await request(app).post(ENDPOINT).send({})
             expect(res.status).toBe(200)
         });
 
         
         it("should add users", async () => {
-            await request(app).post("/api/testData/seed").send({})
+            await request(app).post(ENDPOINT).send({})
             await Promise.all(seedUsers.map(async (user) => {
                 const userDB = await User.findOne({username:user.username})
                 expect(userDB.email).toBe(user.email)
@@ -37,11 +38,34 @@ describe("TestData API", () => {
         beforeEach(async () => {
             await seedDatabase()
         })
-        
-        it("todo", () => {
-            expect(true).toBe(true)
-        })
-        
-    });
 
+        describe("with nonexistent entity", () => {
+            const ENDPOINT = "/api/testData/doesnotexists"
+            it("should respond with 422", async () => {
+                const res = await request(app).get(ENDPOINT)
+                expect(res.status).toBe(422)
+            })
+        })
+
+        describe("with users entity", () => {
+            const ENDPOINT = "/api/testData/users"
+
+            it("should respond with 200", async () => {
+                const res = await request(app).get(ENDPOINT)
+                expect(res.status).toBe(200)
+            })
+
+            it("should return all users as result", async () => {
+                const res = await request(app).get(ENDPOINT)
+                seedUsers.map((userDB) => {
+                    expect(res.body.results).toEqual(
+                        expect.arrayContaining([
+                          expect.objectContaining({email: userDB.email})
+                        ])
+                      )
+                })
+
+            });
+        });
+    });
 });

@@ -6,7 +6,7 @@ import { tokenAdded } from "../../store/userSlice";
 import { useHistory } from "react-router-dom";
 
 
-const LoginForm = (props : any) => {
+const LoginForm = (props : { closePopup : () => void; }) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -28,35 +28,51 @@ const LoginForm = (props : any) => {
         setPassword(event.target.value);
     };
 
+    const setEmailError = (isError : boolean, message: string) : void => {
+        setEmailInputError(isError)
+        setEmailErrorMessage(message)
+    }
+
+    const setPasswordError = (isError : boolean, message: string) : void => {
+        setPasswordInputError(isError)
+        setPasswordErrorMessage(message)
+    }
+
     const handleSubmit = (event : React.SyntheticEvent) => {
         event.preventDefault()
 
-        setEmailInputError(false)
-        setPasswordInputError(false)
-
-        setEmailErrorMessage("")
-        setPasswordErrorMessage("")
+        setEmailError(false, "")
+        setPasswordError(false, "")
         
-        axios.post('/api/users/login', {email: email, password: password})
-            .then((res) => loginSuccess(res.data))
-            .catch((err) => loginError(err.response.data.errors))
+
+        if (email.length === 0)  {
+            setEmailError(true, "Vous devez saisir un email")
+        } 
+        if (password.length === 0) {
+            setPasswordError(true, "Vous devez saisir un mot de passe")
+        }
+        
+        if (email.length !== 0 && password.length !== 0) {
+            axios.post('/api/users/login', {email: email, password: password})
+                .then((res) => loginSuccess(res.data))
+                .catch((err) => loginError(err.response.data.errors))
+        }
+
     }
 
-    const loginSuccess = (res : any) => {
+    const loginSuccess = (res : { token : string }) => {
         dispatch(tokenAdded(res.token))
         props.closePopup()
     }
 
-    const loginError = (errors : any) => {
+    const loginError = (errors : {[prop: string]: string}) => {
         Object.keys(errors).forEach((e) => {
             switch (e) {
                 case "email":
-                    setEmailInputError(true)
-                    setEmailErrorMessage(errors[e])
+                    setEmailError(true, errors[e])
                     break;
                 case "password":
-                    setPasswordInputError(true)
-                    setPasswordErrorMessage(errors[e])
+                    setPasswordError(true, errors[e])
                     break;
             }
         })

@@ -1,5 +1,17 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
 
+
+const login = (user) => {
+    cy.visit('/');
+    cy.get(`[data-cy=login-button]`).click();
+
+    cy.database("find", "users", {username:user}).then((user) => {
+        cy.get(`[data-cy=email-input]`).type(user.email);
+        cy.get(`[data-cy=password-input]`).type("strongpwd");
+        cy.get(`[data-cy=signin-button]`).click();
+    })
+}
+
 /*
  * Given
  */
@@ -10,6 +22,11 @@ Given(`I am on the homepage`, () => {
 
 Given(`I am on the {string} page`, (page) => {
     cy.visit(page);
+})
+
+
+Given(`I am logged as {string}`, (user) => {
+    login(user)
 })
 
 /*

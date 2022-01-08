@@ -12,9 +12,9 @@ const options = {
   socketTimeoutMS   : 45000, // Close sockets after 45 seconds of inactivity
 };
 
-  // CONNECTION EVENTS
-  // When successfully connected
-  mongoose.connection.on('connected', () => {
+// CONNECTION EVENTS
+// When successfully connected
+mongoose.connection.on('connected', () => {
     logger.info('Mongoose default connection open to ' + dbURI);
 });
 

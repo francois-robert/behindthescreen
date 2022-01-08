@@ -19,3 +19,10 @@ export const seedDatabase = async () => {
     await User.deleteMany({});
     await User.insertMany(createUsers(seedUsers));
 };
+
+export const getAllForEntity = async (entity) => {
+    switch (entity) {
+        case "users":
+           return await User.find({})
+    }
+}

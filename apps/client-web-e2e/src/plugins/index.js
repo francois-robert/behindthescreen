@@ -20,6 +20,7 @@ const browserify = require('@cypress/browserify-preprocessor');
 const cucumber = require('cypress-cucumber-preprocessor').default;
 const resolve = require('resolve');
 const axios = require('axios');
+const _ = require('lodash');
 
 module.exports = (on, config) => {
 
