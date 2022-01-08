@@ -9,7 +9,7 @@ const InlineMenu = (props: { sx: SxProps<Theme>;  }) => {
       <Box sx={Object.assign({ flexGrow: 10, alignItems: 'center'}, props.sx)}>
         <ButtonGroup variant="text" aria-label="text button group">
         {menuLinks.map((page) => (
-          <NavLink exact to={page.path} key={page.name} style={{textDecoration:"none"}} activeStyle={activeLink}>
+          <NavLink exact to={page.path} key={page.name} data-cy={page.name+"-link"} style={{textDecoration:"none"}} activeStyle={activeLink}>
             <Button variant="text" sx={{color:"white"}} >
               {page.name}
             </Button>

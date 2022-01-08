@@ -36,6 +36,10 @@ When(`I click on the {string} button`, (button) => {
     cy.get(`[data-cy=${button}-button]`).click();
 })
 
+When(`I click on the {string} link`, (link) => {
+    cy.get(`[data-cy=${link}-link]`).click();
+})
+
 When(`I visit the {string} page`, (page) => {
     cy.visit(page);
 })
@@ -53,7 +57,7 @@ Then(`I should see behindthescreen's logo`, () => {
 })
 
 Then(`I should see {string}`, value => {
-    cy.get(`[data-cy=${value}]`).should('be.visible');
+    cy.get(`#root`).contains(value);
 })
 
 // A refactor
@@ -69,6 +73,9 @@ Then(`I should see the account menu`, () => {
     cy.get(`[data-cy=account-menu]`).should('be.visible');
 })
 
+Then(`I should see the {string} button`, (button) => {
+    cy.get(`[data-cy=${button}-button]`).should('be.visible');
+})
 
 Then(`I should not see the {string} button`, (button) => {
     cy.get(`[data-cy=${button}-button]`).should('not.be.visible');

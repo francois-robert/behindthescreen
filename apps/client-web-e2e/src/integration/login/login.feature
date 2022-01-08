@@ -12,5 +12,5 @@ Scenario: Login successful
      And I fill "password" with "strongpwd"
      And I click on the "signin" button
     Then I should be on the "/" page
-     And I should see the account menu
+     And I should see the "logout" button
 

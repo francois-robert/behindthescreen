@@ -2,7 +2,8 @@ import { Box, Button, FormControl, FormHelperText, Input, InputLabel, TextField,
 import axios from "axios";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { tokenAdded } from "../../store/userSlice";
+import { loginSuccess, loginFailed } from "../../store/authSlice";
+import { login } from "../../actions/auth.service";
 import { useHistory } from "react-router-dom";
 
 
@@ -53,19 +54,18 @@ const LoginForm = (props : { closePopup : () => void; }) => {
         }
         
         if (email.length !== 0 && password.length !== 0) {
-            axios.post('/api/users/login', {email: email, password: password})
-                .then((res) => loginSuccess(res.data))
-                .catch((err) => loginError(err.response.data.errors))
+            login(email, password).then((res) => {
+                dispatch(loginSuccess(res))
+                history.push("/");
+                window.location.reload();
+            }).catch((errors) => {
+                dispatch(loginFailed())
+                displayErrors(errors.response.data.errors)
+            })
         }
-
     }
 
-    const loginSuccess = (res : { token : string }) => {
-        dispatch(tokenAdded(res.token))
-        props.closePopup()
-    }
-
-    const loginError = (errors : {[prop: string]: string}) => {
+    const displayErrors = (errors : {[prop: string]: string}) => {
         Object.keys(errors).forEach((e) => {
             switch (e) {
                 case "email":
