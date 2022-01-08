@@ -29,7 +29,7 @@ const LoginButton = (props: { sx: SxProps<Theme>;  }) => {
             horizontal: 'center',
             }}
         >
-                <LoginForm />
+                <LoginForm closePopup={popupState.close} />
             </Popover>
         </Box>
     );
